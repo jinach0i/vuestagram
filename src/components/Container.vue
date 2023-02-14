@@ -6,20 +6,16 @@
                 <Post :포스팅info="포스팅info[i]" v-for="(a, i) in 포스팅info" :key="i"/>
             </li>
             <li v-if="clickedIndex==1" >
-                <div class="upload-image"></div>
+                <div class="upload-image" :style="`background-image: url(${imgURL});`"></div>
                 <div class="filters">
-                    <div class="filter-1"></div>
-                    <div class="filter-1"></div>
-                    <div class="filter-1"></div>
-                    <div class="filter-1"></div>
-                    <div class="filter-1"></div>
+                    <FilterBox :filter="filter" :imgURL="imgURL" v-for="(a,i) in filter" :key="i"></FilterBox>
                 </div>
             </li>
             <!-- 글작성페이지 -->
             <li v-if="clickedIndex==2" >
-                <div class="upload-image"></div>
+                <div class="upload-image" :style="`background-image: url(${imgURL});`"></div>
                 <div class="write">
-                    <textarea class="write-box">write!</textarea>
+                    <textarea class="write-box" @input="$emit('write',$event.target.value)">write something!</textarea>
                 </div>
             </li>
         </ul>
@@ -27,16 +23,30 @@
 </template>
 
 <script>
+import FilterBox from './FilterBox.vue';
+import filter from './filter';
 import Post from './Post.vue';
 export default {
     name: 'TheContainer',
-    components: {
-        Post,
+    data() {
+        return {
+            filter: filter,
+        }
     },
+    components: {
+    Post,
+    FilterBox
+},
     props:{
         포스팅info:Array,
         clickedIndex:Number,
+        imgURL:String,
+
     },
+    methods: {
+        
+    },
+
 }
 </script>
 

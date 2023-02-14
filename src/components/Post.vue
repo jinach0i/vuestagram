@@ -4,9 +4,9 @@
       <div class="profile" :style="{backgroundImage:`url(${포스팅info.userImage})`}"></div>
       <span class="profile-name">{{ 포스팅info.name }}</span>
     </div>
-    <div class="post-body" :style="{backgroundImage:`url(${포스팅info.postImage})`}"></div>
+    <div class="post-body" :style="{backgroundImage:`url(${포스팅info.postImage})`}" @dblclick="$store.commit('likesup',1)"></div>
     <div class="post-content">
-      <p>{{ 포스팅info.likes }} Likes</p>
+      <p>{{ $store.state.likes }} Likes</p>
       <p><strong>{{ 포스팅info.name }}</strong> {{ 포스팅info.content }}</p>
       <p class="date">{{ 포스팅info.date }}</p>
     </div>

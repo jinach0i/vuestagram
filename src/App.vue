@@ -3,13 +3,16 @@
     <!-- 인스타그램의 고정식 상단 하단을 여기에 -->
     <div class="header">
       <ul class="header-button-left">
-        <li>Cancel</li>
+        <li @click="clickedIndex--">Cancel</li>
       </ul>
       <ul class="header-button-right">
-        <li>Next</li>
+        <li v-if="clickedIndex==1" @click="clickedIndex++">Next</li>
+        <li v-if="clickedIndex==2" @click="publish">발행</li>
       </ul>
       <img src="./assets/logo.png" class="logo" />
     </div>
+    <h4>안녕,{{ $store.state.name }} {{ $store.state.age }}세 님</h4>
+    <button @click="$store.commit('agecounter')">무서운 버튼</button>
     <ul>
       <li>
         <a href="#" @click="clickedIndex=0">탭0</a>
@@ -22,11 +25,11 @@
       </li>
     </ul>
     
-    <Container :포스팅info="포스팅info" :clickedIndex="clickedIndex"/>
+    <Container :포스팅info="포스팅info" :clickedIndex="clickedIndex" :imgURL="imgURL" @write="MyWrite=$event"/>
     <button @click="more">더보기</button>
     <div class="footer">
       <ul class="footer-button-plus">
-        <input type="file" id="file" class="inputfile" />
+        <input @change="upload" type="file" id="file" class="inputfile" />
         <label for="file" class="input-plus">+</label>
       </ul>
     </div>
@@ -37,14 +40,17 @@
 import Container from './components/Container.vue';
 import data from './data';
 import axios from 'axios';
+let date=new Date();
 
+console.log(date.getMonth);
 export default {
   name: 'App',
   data() {
     return {
       포스팅info:data,
       clickedIndex:0,
-
+      imgURL:'',
+      MyWrite:'',
     }
   },
   components: {
@@ -54,11 +60,33 @@ export default {
     more(){
       axios.get(`https://codingapple1.github.io/vue/more${this.clickedIndex}.json`)
       .then(a => {
+        console.log(a);
         this.포스팅info.push(a.data);
         this.clickedIndex++;
       })
     },
-    
+    upload(e) {
+      let 파일=e.target.files;
+      let url=URL.createObjectURL(파일[0]);
+      console.log(url);
+      this.imgURL=url;
+      this.clickedIndex++;
+
+    },
+    publish() {
+      let myCurPost = {
+        name: this.$store.state.name,
+        userImage: "https://placeimg.com/100/100/arch",
+        postImage: this.imgURL,
+        likes: 36,
+        date: "May 15",
+        liked: false,
+        content: this.MyWrite,
+        filter: ""
+      };
+      this.포스팅info.unshift(myCurPost);
+      this.clickedIndex=0;
+    },
   },
 }
 </script>
