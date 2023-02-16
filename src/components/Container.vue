@@ -8,7 +8,9 @@
             <li v-if="clickedIndex==1" >
                 <div class="upload-image" :style="`background-image: url(${imgURL});`"></div>
                 <div class="filters">
-                    <FilterBox :filter="filter" :imgURL="imgURL" v-for="(a,i) in filter" :key="i"></FilterBox>
+                    <FilterBox :필터="필터" :imgURL="imgURL" v-for="필터 in filter" :key="필터">
+                        <span>{{ 필터 }}</span>
+                    </FilterBox>
                 </div>
             </li>
             <!-- 글작성페이지 -->

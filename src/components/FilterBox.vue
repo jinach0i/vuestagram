@@ -1,5 +1,8 @@
 <template>
-    <div class="filter-item"  :style="`background-image:url(${imgURL});`"></div> 
+    <div :class="필터 + ' filter-item'"  :style="`background-image:url(${imgURL});`">
+        <slot></slot>
+        <button @click="emitter1"></button>
+    </div> 
 </template>
 
 <script>
@@ -14,11 +17,13 @@ export default {
 
     },
     methods: {
-        
+        emitter1() {
+            this.emitter.emit('작명','data명')
+        },
     },
     props:{
         imgURL:String,
-        filter:Array,
+        필터:String,
     }
 }
 </script>
